@@ -16,7 +16,7 @@ input [address_bus-1:0] address;
 input write_enable, read_enable;
 output reg [words_num-1:0] data_output;
 reg [words_num-1:0] WriteRAM;
-
+//Please declare the type of all the input used
 // inout [words_num-1:0] data_io;
 
 reg [words_num-1:0] memory [0:(1<<address_bus)]; //32-bits memory with 2^16 words
