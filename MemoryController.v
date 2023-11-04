@@ -2,27 +2,30 @@ module MemoryController (
   input [3:0] Opcode,
   input [31:0] Address, // Source1
   input [31:0] Data,    // Source2
+  input [31:0] Din,
   output reg LDRSel,
   output reg AddressBusSel,
   output reg RW,
   output reg [31:0] LDRDataToDestReg,
   output reg [31:0] AddressBus,
-  inout [31:0] DataBus
+  output reg [31:0] Dout
 );
 
-  always @(*) begin
-    LDRSel = 0;
-    AddressBusSel = 0;
-    LDRDataToDestReg = 32'b0;
-    AddressBus = 32'b0;
-    
+  always @(Opcode or Address or Data or Din) begin
+    LDRSel = 1'b0;
+    AddressBusSel = 1'b0;
+    LDRDataToDestReg = 32'bz;
+    AddressBus = 32'bz;
+    Dout = 32'bz;
+    RW = 1'bz;
+
     // LDR: source1 points to the address of the data in the RAM.
     if (Opcode == 4'b1101) begin
       LDRSel = 1;
       AddressBusSel = 1;
       AddressBus = Address;
       RW = 0;
-      LDRDataToDestReg = DataBus;
+      LDRDataToDestReg = Din;
     end
     // STR
     // source 1 points to the address
@@ -31,8 +34,7 @@ module MemoryController (
       AddressBusSel = 1;
       RW = 1;
       AddressBus = Address;
+      Dout = Data;
     end
   end
-
-  assign DataBus = (Opcode == 4'b1110) ? Data : 32'bz; 
 endmodule
