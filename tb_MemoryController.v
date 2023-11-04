@@ -1,6 +1,5 @@
 module tb_MemoryController;
 
-  reg clk;
   reg [3:0] Opcode;
   reg [31:0] Address;
   reg [31:0] Data;
@@ -14,7 +13,6 @@ module tb_MemoryController;
 
   // Instantiate the MemoryController module
   MemoryController mem_ctrl (
-    .clk(clk),
     .Opcode(Opcode),
     .Address(Address),
     .Data(Data),
@@ -26,14 +24,8 @@ module tb_MemoryController;
     .DataBus(DataBus)
   );
 
-  // Clock generation
-  always begin
-    #5 clk = ~clk;
-  end
-
   // Testbench stimulus
   initial begin
-    clk = 0;
     Opcode = 4'b1101; // Example LDR opcode
     Address = 32'h12345678; // Example address for LDR
     Data = 32'h9abcdef0; // Example data for LDR
