@@ -45,7 +45,22 @@ module tb_MemoryController;
     $display("AddressBus: 32'h%h", AddressBus);
     $display("DataBus: 32'h%h", DataBus);
     
-    // You can add more test scenarios here
+    // STR Test
+    Opcode = 4'b1110;
+
+    $display("Testing STR:");
+    $display("Opcode: 4'b%b", Opcode);
+    $display("Address: 32'h%h", Address);
+    $display("Data: 32'h%h", Data);
+    
+    #10; // Wait for some time
+    
+    $display("LDRSel: %b", LDRSel);
+    $display("AddressBusSel: %b", AddressBusSel);
+    $display("RW: %b", RW);
+    $display("LDRDataToDestReg: 32'h%h", LDRDataToDestReg);
+    $display("AddressBus: 32'h%h", AddressBus);
+    $display("DataBus: 32'h%h", DataBus);
 
     $finish; // End simulation
   end
