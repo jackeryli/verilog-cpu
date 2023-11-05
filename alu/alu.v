@@ -1,4 +1,4 @@
-module alu(In1, In2, In3, Out, opcode, Cond, S, SR_Cont, SR_Bit, flag, Imm, mem);
+module alu(In1, In2, Out, opcode, Cond, S, SR_Cont, SR_Bit, flag, Imm, mem);
 input [31:0] In1, In2;
 reg In3;
 input [3:0] opcode, Cond;
