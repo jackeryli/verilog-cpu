@@ -8,7 +8,7 @@ always @ * begin
         flag = 4'b1000;
     else if (result == 0)
         flag = 4'b0100;
-    else if (result >= 2**32)
+    else if (result >= 1<<32)
         flag = 4'b0010;
     else if ((result > 0 && In1<0 && In2<0)||(result<0 && In1>0 && In2>0))
         flag = 4'b0001;
