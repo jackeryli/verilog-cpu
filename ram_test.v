@@ -1,6 +1,6 @@
 module RAM_tb;
 //use register for testbench
-reg clk, rst;
+// reg clk, rst;
 reg write_enable, read_enable;
 reg [15:0] address;
 // reg [31:0] in_out;
@@ -15,21 +15,17 @@ RAM_2_16x32 uut(
     .data_input(data_input),
     .data_output(data_output),
     .read_enable(read_enable),
-    .address(address),
-    .clk(clk),
-    .rst(rst)
+    .address(address)
+    // .clk(clk),
+    // .rst(rst)
 );
 
 initial begin
     // $monitor($time,,,
     // "Data=%d",data_output);
-clk = 0;
-rst = 0;
 data_input = 0;
 write_enable = 0;
 read_enable = 0;
-#10 rst = 1;
-#10 rst = 0;//reset finish
 
 #10//write enable test
 data_input = 20; //in adr 30 write 10
@@ -45,11 +41,22 @@ write_enable = 0;
 read_enable = 1;
 
 #10
+read_enable = 0;
+data_input = 1;
 address = 55;
+
+#10
+write_enable = 1;
+
+#10
+read_enable = 1;
+#10
+read_enable = 0;
 
 
 // $finish();
 end
 
-always #5 clk = ~clk;
+// always #5 clk = ~clk;
+endmodule
 endmodule
