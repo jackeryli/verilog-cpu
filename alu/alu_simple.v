@@ -1,11 +1,20 @@
 module alu_simple (In1, In2, Out, opcode, SR_Cont, SR_Bit);
 input [31:0] In1, In2;
-reg [31:0] In3;
 input [3:0] opcode;
 input [4:0] SR_Bit;
 input [2:0] SR_Cont;
 output reg [31:0] Out;
+
+// The 4-bit Flags register ({N, Z, C, V}) are set by a CMP instruction
+// or when the S option is set to one (bit # 23 of the instruction). 
+// N=1 if the result is negative
+// Z=1 if the result is zero
+// C=1 if the result generates a carry
+// V=1 if the result generates an overflow
+output reg [3:0] flags;
+
 wire [31:0] add_out, sub_out, mul_out, bor_out, band_out, bxor_out, rs_out, ls_out, rr_out;
+reg [31:0] In3;
 
 right_shifter rs (In2, SR_Bit, rs_out);
 left_shifter ls (In2, SR_Bit, ls_out);
@@ -34,4 +43,6 @@ always @ * begin
         default: Out = Out;
     endcase
 end
+
+assign flags[3] = 
 endmodule
