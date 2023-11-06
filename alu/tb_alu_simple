@@ -1,0 +1,79 @@
+module tb_alu_simple;
+
+  reg [31:0] In1, In2;
+  reg [3:0] opcode;
+  reg [4:0] SR_Bit;
+  reg [2:0] SR_Cont;
+  wire [31:0] Out;
+
+  // Instantiate the Unit Under Test (UUT)
+  alu_simple uut (
+    .In1(In1), 
+    .In2(In2), 
+    .Out(Out), 
+    .opcode(opcode), 
+    .SR_Cont(SR_Cont), 
+    .SR_Bit(SR_Bit)
+  );
+
+  initial begin
+    // Initialize Inputs
+    In1 = 0;
+    In2 = 0;
+    opcode = 0;
+    SR_Bit = 0;
+    SR_Cont = 0;
+
+    // Add stimulus here
+    // Wait for global reset to finish
+    #100;
+
+    // Test addition
+    opcode = 4'b0000;
+    In1 = 10;
+    In2 = 15;
+    #10;
+
+    // Test subtraction
+    opcode = 4'b0001;
+    In1 = 20;
+    In2 = 10;
+    #10;
+
+    // Test multiplication
+    opcode = 4'b0010;
+    In1 = 7;
+    In2 = 6;
+    #10;
+
+    // Test bitwise OR
+    opcode = 4'b0011;
+    In1 = 8'hA5;  // 10100101
+    In2 = 8'h5A;  // 01011010
+    #10;
+
+    // Test bitwise AND
+    opcode = 4'b0100;
+    In1 = 8'hFF;  // 11111111
+    In2 = 8'h0F;  // 00001111
+    #10;
+
+    // Test bitwise XOR
+    opcode = 4'b0101;
+    In1 = 8'hF0;  // 11110000
+    In2 = 8'h0F;  // 00001111
+    #10;
+
+    // Continue testing other operations if necessary...
+
+    // Complete the test
+    $finish;
+  end
+
+  // Monitor changes and print
+  initial begin
+    $monitor("Time = %d : In1 = %h, In2 = %h, Opcode = %b, SR_Bit = %b, SR_Cont = %b, Out = %h", 
+             $time, In1, In2, opcode, SR_Bit, SR_Cont, Out);
+  end
+
+endmodule
