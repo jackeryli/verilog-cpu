@@ -18,6 +18,8 @@ output wire [3:0] Flags;
 wire [31:0] add_out, sub_out, mul_out, bor_out, band_out, bxor_out, rs_out, ls_out, rr_out;
 wire [31:0] move_imm_out;
 wire [31:0] move_out;
+wire [31:0] load_out;
+wire [31:0] store_out;
 
 wire add_carry, add_overflow;
 
@@ -43,7 +45,8 @@ bitwise_and band (In1, In3, band_out);
 bitwise_xor bxor (In1, In3, bxor_out);
 mov_imm movi (Immediate, move_imm_out);
 mov mov (In1, move_out);
-
+ldr load(In1, load_out);
+str store(In1, store_out);
 
 always @ * begin
     case (Opcode)
@@ -60,8 +63,8 @@ always @ * begin
         4'b0110: Out = move_imm_out;
         4'b0111: Out = move_out;
         // TODO: CMP R1, R2
-        // TODO: LDR R2 [R1]
-        // TODO: STR R2, [R1]
+        4'b1101: Out = load_out;
+        4'b1110: Out = store_out;
         default: Out = Out;
     endcase
 end
