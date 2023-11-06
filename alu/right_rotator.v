@@ -1,6 +1,9 @@
-module right_rotator (In, Out);
-    input [31:0] In;
-    output wire [31:0] Out;
-    parameter SR_Bit = 1;
-    assign Out = {In[31-SR_Bit:0], In[31:SR_Bit]};
+module right_rotator (In, SR_Bit, Out);
+    parameter N = 32;
+
+    input [N-1:0] In;
+    input [4:0] SR_Bit;
+    output wire [N-1:0] Out;
+    
+    assign Out = In << (N-1-SR_Bit) | In >> SR_Bit;
 endmodule

@@ -9,12 +9,13 @@ input [15:0] Imm;
 input [31:0] mem [0:(1<<16)];
 output reg [31:0] Out;
 inout reg [3:0] flag;
+
 always @ * begin
     case (SR_Cont)
+        3'b001: right_shifter rs (.In(In2), .SR_Bit(SR_Bit), .Out(In3));
+        3'b010: left_shifter ls (.In(In2), .SR_Bit(SR_Bit), .Out(In3));
+        3'b011: right_rotator rr (.In(In2), .SR_Bit(SR_Bit), .Out(In3));
         default: In3 = In2;
-        3'b001: right_shifter #(SR_Bit) rs (In2, In3);
-        3'b010: left_shifter #(SR_Bit) ls (In2, In3);
-        3'b011: right_rotator #(SR_Bit) rr (In2, In3);
     endcase
     case (opcode)
         4'b0000: adder(In1, In3, Out);

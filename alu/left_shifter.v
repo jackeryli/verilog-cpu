@@ -1,6 +1,9 @@
-module left_shifter (In, Out);
-    input [31:0] In;
-    output wire [31:0] Out;
-    parameter SR_Bit = 1;
-    assign Out = {In[31-SR_Bit:0], {SR_Bit{1'b0}}};
+module left_shifter (In, SR_Bit, Out);
+    parameter N = 32;
+
+    input [N-1:0] In;
+    input [4:0] SR_Bit;
+    output wire [N-1:0] Out;
+    
+    assign Out = In << SR_Bit;
 endmodule
