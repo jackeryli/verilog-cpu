@@ -75,14 +75,20 @@ module alu_simple_tb;
         In1 = 12'h0F0; // 0000 1111 0000
         In2 = 12'h00F; // 0000 0000 1111
         #10;
-        if (Out != (In1 & In2)) $display("Bitwise AND Test Failed!");
+        if (Out != (In1 & In2)) begin
+            $display("Out=%b, In1=%b, In2=%b", Out, In1, In2);
+            $display("Bitwise AND Test Failed!");
+        end
 
         // Test bitwise XOR
         opcode = 4'b0101; // XOR opcode
         In1 = 12'h0FF; // 0000 1111 1111
         In2 = 12'h0F0; // 0000 1111 0000
         #10;
-        if (Out != (In1 ^ In2)) $display("Bitwise XOR Test Failed!");
+        if (Out != (In1 ^ In2)) begin
+            $display("Out=%b, In1=%b, In2=%b", Out, In1, In2);
+            $display("Bitwise XOR Test Failed!");
+        end
 
         // Test shift right
         opcode = 4'bxxxx; // Set to unused opcode for shifting

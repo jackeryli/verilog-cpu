@@ -30,7 +30,7 @@ always @ * begin
         4'b0010: Out = mul_out;
         4'b0011: Out = bor_out;
         4'b0100: Out = band_out;
-        4'b0101: Out = bor_out;
+        4'b0101: Out = bxor_out;
         default: Out = Out;
     endcase
 end
