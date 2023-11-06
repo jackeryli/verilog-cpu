@@ -1,9 +1,10 @@
-module alu_simple (In1, In2, Out, opcode, SR_Cont, SR_Bit, S, Flags);
+module alu_simple (In1, In2, Out, Opcode, SR_Cont, SR_Bit, S, Flags, Immediate);
 input [31:0] In1, In2;
-input [3:0] opcode;
+input [3:0] Opcode;
 input [4:0] SR_Bit;
 input [2:0] SR_Cont;
 input S;
+input [15:0] Immediate;
 output reg [31:0] Out;
 
 // The 4-bit Flags register ({N, Z, C, V}) are set by a CMP instruction
@@ -15,6 +16,9 @@ output reg [31:0] Out;
 output wire [3:0] Flags;
 
 wire [31:0] add_out, sub_out, mul_out, bor_out, band_out, bxor_out, rs_out, ls_out, rr_out;
+wire [31:0] move_imm_out;
+wire [31:0] move_out;
+
 wire add_carry, add_overflow;
 
 reg [31:0] In3;
@@ -37,9 +41,12 @@ multiplier mul (In1, In3, mul_out);
 bitwise_or bor (In1, In3, bor_out);
 bitwise_and band (In1, In3, band_out);
 bitwise_xor bxor (In1, In3, bxor_out);
+mov_imm movi (Immediate, move_imm_out);
+mov mov (In1, move_out);
+
 
 always @ * begin
-    case (opcode)
+    case (Opcode)
         4'b0000: begin
             Out = add_out;
             carry = add_carry;
@@ -50,8 +57,8 @@ always @ * begin
         4'b0011: Out = bor_out;
         4'b0100: Out = band_out;
         4'b0101: Out = bxor_out;
-        // TODO: MOV R1,n
-        // TODO: MOV R1, R2
+        4'b0110: Out = move_imm_out;
+        4'b0111: Out = move_out;
         // TODO: CMP R1, R2
         // TODO: LDR R2 [R1]
         // TODO: STR R2, [R1]

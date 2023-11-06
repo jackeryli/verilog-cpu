@@ -1,5 +1,5 @@
-module mov (In1, In2);
-input [31:0] In2;
-output [31:0] In1;
-assign In1 = In2;
+module mov (In, Out);
+input [31:0] In;
+output [31:0] Out;
+assign Out = In;
 endmodule

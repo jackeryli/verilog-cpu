@@ -5,10 +5,11 @@ module alu_simple_tb;
     // Inputs
     reg [31:0] In1;
     reg [31:0] In2;
-    reg [3:0] opcode;
+    reg [3:0] Opcode;
     reg [4:0] SR_Bit;
     reg [2:0] SR_Cont;
     reg S;
+    reg [15:0] Immediate;
 
     // Output
     wire [31:0] Out;
@@ -19,7 +20,7 @@ module alu_simple_tb;
         .In1(In1), 
         .In2(In2), 
         .Out(Out), 
-        .opcode(opcode), 
+        .Opcode(Opcode), 
         .SR_Cont(SR_Cont), 
         .SR_Bit(SR_Bit),
         .S(S),
@@ -30,7 +31,7 @@ module alu_simple_tb;
         // Initialize Inputs
         In1 = 0;
         In2 = 0;
-        opcode = 0;
+        Opcode = 0;
         SR_Bit = 0;
         SR_Cont = 0;
         S = 1;
@@ -39,7 +40,7 @@ module alu_simple_tb;
         #100;
 
         // Test addition
-        opcode = 4'b0000; // Addition opcode
+        Opcode = 4'b0000; // Addition Opcode
         In1 = 15;
         In2 = 20;
         SR_Bit = 5; // Random shift for testing, not needed for addition
@@ -50,7 +51,7 @@ module alu_simple_tb;
 
 
         // Test subtraction
-        opcode = 4'b0001; // Subtraction opcode
+        Opcode = 4'b0001; // Subtraction Opcode
         In1 = 30;
         In2 = 10;
         SR_Bit = 2; // Random shift for testing, not needed for subtraction
@@ -62,7 +63,7 @@ module alu_simple_tb;
         end
 
         // Test multiplication
-        opcode = 4'b0010; // Multiplication opcode
+        Opcode = 4'b0010; // Multiplication Opcode
         In1 = 5;
         In2 = 5;
         SR_Bit = 3; // Random shift for testing, not needed for multiplication
@@ -71,14 +72,14 @@ module alu_simple_tb;
         if (Out != (In1 * In2)) $display("Multiplication Test Failed!");
 
         // Test bitwise OR
-        opcode = 4'b0011; // OR opcode
+        Opcode = 4'b0011; // OR Opcode
         In1 = 12'h0A0; // 0000 1010 0000
         In2 = 12'h005; // 0000 0000 0101
         #10;
         if (Out != (In1 | In2)) $display("Bitwise OR Test Failed!");
 
         // Test bitwise AND
-        opcode = 4'b0100; // AND opcode
+        Opcode = 4'b0100; // AND Opcode
         In1 = 12'h0F0; // 0000 1111 0000
         In2 = 12'h00F; // 0000 0000 1111
         #10;
@@ -88,7 +89,7 @@ module alu_simple_tb;
         end
 
         // Test bitwise XOR
-        opcode = 4'b0101; // XOR opcode
+        Opcode = 4'b0101; // XOR Opcode
         In1 = 12'h0FF; // 0000 1111 1111
         In2 = 12'h0F0; // 0000 1111 0000
         #10;
@@ -98,7 +99,7 @@ module alu_simple_tb;
         end
 
         // Test shift right
-        opcode = 4'b0000; // ADD opcode
+        Opcode = 4'b0000; // ADD Opcode
         In1 = 30;
         In2 = 10;
         SR_Bit = 4;
@@ -110,7 +111,7 @@ module alu_simple_tb;
         end
 
         // Test shift left
-        opcode = 4'b0000; // ADD opcode
+        Opcode = 4'b0000; // ADD Opcode
         In1 = 30;
         In2 = 10;
         SR_Bit = 4;
@@ -122,7 +123,7 @@ module alu_simple_tb;
         end
 
         // Test right rotation
-        opcode = 4'b0000; // ADD opcode
+        Opcode = 4'b0000; // ADD Opcode
         In1 = 30;
         In2 = 10;
         SR_Bit = 4;
@@ -131,6 +132,24 @@ module alu_simple_tb;
         if (Out != (In1 + (32'b1010_0000_0000_0000_0000_0000_0000_0000))) begin
             $display("Out=%b, In1=%b, In2=%b", Out, In1, In2);
             $display("Right rotation Test Failed!");
+        end
+
+        // Test mov imm
+        Opcode = 4'b0110; // MOV intermidiate Opcode
+        In1 = 30;
+        Immediate = 60;
+        #10
+        if (Out != Immediate) begin
+            $display("Move Immediate Test Failed!");
+        end
+
+        // Test mov
+        Opcode = 4'b0111; // MOV intermidiate Opcode
+        In1 = 30;
+        Immediate = 0;
+        #10
+        if (Out != In1) begin
+            $display("Move Test Failed!");
         end
 
         // Signal test completion
