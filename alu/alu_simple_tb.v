@@ -152,6 +152,20 @@ module alu_simple_tb;
             $display("Move Test Failed!");
         end
 
+        // Test ldr
+        Opcode = 4'b1101;
+        In1 = 30;
+        if (Out != In1) begin
+            $display("Load Test Failed");
+        end
+
+        // Test str
+        Opcode = 4'b1110;
+        In1 = 30;
+        if (Out != In1) begin
+            $display("Store Test Failed");
+        end
+
         // Signal test completion
         $display("All tests completed successfully.");
     end
