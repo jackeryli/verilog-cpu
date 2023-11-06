@@ -31,7 +31,7 @@ always @ * begin
         4'b0011: Out = bor_out;
         4'b0100: Out = band_out;
         4'b0101: Out = bor_out;
-        default: ;
+        default: Out = Out;
     endcase
 end
 endmodule

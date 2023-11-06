@@ -49,7 +49,10 @@ module alu_simple_tb;
         SR_Bit = 2; // Random shift for testing, not needed for subtraction
         SR_Cont = 3'b000; // No shift operation
         #10;
-        if (Out != (In1 - In2)) $display("Subtraction Test Failed!");
+        if (Out != (In1 - In2)) begin
+            $display("Out=%d, In1=%d, In2=%d", Out, In1, In2);
+            $display("Subtraction Test Failed!");
+        end
 
         // Test multiplication
         opcode = 4'b0010; // Multiplication opcode
