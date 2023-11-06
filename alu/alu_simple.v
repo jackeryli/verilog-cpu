@@ -7,9 +7,9 @@ input [2:0] SR_Cont;
 output reg [31:0] Out;
 wire [31:0] add_out, sub_out, mul_out, bor_out, band_out, bxor_out, rs_out, ls_out, rr_out;
 
-right_shifter rs (In2, SR_Bit, In3);
-left_shifter ls (In2, SR_Bit, In3);
-right_rotator rr (In2, SR_Bit, In3);
+right_shifter rs (In2, SR_Bit, rs_out);
+left_shifter ls (In2, SR_Bit, ls_out);
+right_rotator rr (In2, SR_Bit, rr_out);
 
 assign In3 = (SR_Cont == 3'b001) ? rs_out :
             (SR_Cont == 3'b010) ? ls_out :
