@@ -91,18 +91,28 @@ module alu_simple_tb;
         end
 
         // Test shift right
-        opcode = 4'bxxxx; // Set to unused opcode for shifting
-        In1 = 32'hFFFFFFFF; // Just a placeholder, not used in shifting
-        In2 = 32'h12345678; // Example input
-        SR_Bit = 4; // Shift by 4 bits
+        opcode = 4'b0000; // ADD opcode
+        In1 = 30;
+        In2 = 10;
+        SR_Bit = 4;
         SR_Cont = 3'b001; // Right shift operation
         #10;
-        if (Out != (In2 >> SR_Bit)) $display("Shift Right Test Failed!");
+        if (Out != (In1 + (In2 >> SR_Bit))) begin
+            $display("Out=%b, In1=%b, In2=%b", Out, In1, In2);
+            $display("Shift Right Test Failed!");
+        end
 
         // Test shift left
+        opcode = 4'b0000; // ADD opcode
+        In1 = 30;
+        In2 = 10;
+        SR_Bit = 4;
         SR_Cont = 3'b010; // Left shift operation
         #10;
-        if (Out != (In2 << SR_Bit)) $display("Shift Left Test Failed!");
+        if (Out != (In1 + (In2 << SR_Bit))) begin
+            $display("Out=%b, In1=%b, In2=%b", Out, In1, In2);
+            $display("Shift Left Test Failed!");
+        end
 
         // Test rotation (assuming rotation module is implemented correctly)
         // ... Rotation tests should be added here
