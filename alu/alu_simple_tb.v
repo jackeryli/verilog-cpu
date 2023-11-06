@@ -24,7 +24,8 @@ module alu_simple_tb;
         .SR_Cont(SR_Cont), 
         .SR_Bit(SR_Bit),
         .S(S),
-        .Flags(Flags)
+        .Flags(Flags),
+        .Immediate(Immediate)
     );
 
     initial begin
