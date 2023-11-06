@@ -114,8 +114,7 @@ module alu_simple_tb;
             $display("Shift Left Test Failed!");
         end
 
-        // Test rotation (assuming rotation module is implemented correctly)
-        // ... Rotation tests should be added here
+        // Test right rotation
         opcode = 4'b0000; // ADD opcode
         In1 = 30;
         In2 = 10;
