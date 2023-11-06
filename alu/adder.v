@@ -7,6 +7,8 @@ module adder (In1, In2, Out, Carry, Overflow);
     wire signed [31:0] sum;
 
     assign Out = In1 + In2;
+
+    // TODO: Carry has bugs
     assign {Carry, sum} = In1 + In2;
     assign Overflow = (In1[31] ~^ In2[31]) & (sum[31] ^ In1[31]);
 endmodule

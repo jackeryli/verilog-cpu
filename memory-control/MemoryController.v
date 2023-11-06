@@ -11,6 +11,8 @@ module MemoryController (
   output reg [31:0] Dout
 );
 
+  // TODO: LDR MUX
+
   always @(Opcode or Address or Data or Din) begin
     LDRSel = 1'b0;
     AddressBusSel = 1'b0;

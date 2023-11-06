@@ -20,6 +20,8 @@ wire add_carry, add_overflow;
 reg [31:0] In3;
 reg carry, overflow;
 
+// TODO: ALU should recognize the optional Cond bits (the four MSB of the instruction) as per the following table;
+
 right_shifter rs (In2, SR_Bit, rs_out);
 left_shifter ls (In2, SR_Bit, ls_out);
 right_rotator rr (In2, SR_Bit, rr_out);
@@ -48,6 +50,11 @@ always @ * begin
         4'b0011: Out = bor_out;
         4'b0100: Out = band_out;
         4'b0101: Out = bxor_out;
+        // TODO: MOV R1,n
+        // TODO: MOV R1, R2
+        // TODO: CMP R1, R2
+        // TODO: LDR R2 [R1]
+        // TODO: STR R2, [R1]
         default: Out = Out;
     endcase
 end
