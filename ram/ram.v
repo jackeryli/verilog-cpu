@@ -4,7 +4,7 @@ module RAM_2_16x32 (
     RW,
     address
 );
-parameter words_num = 32, address_bus = 16;
+parameter words_num = 32, address_bus = 32;
 integer i=0;
 input [words_num-1:0] data_input;
 input [address_bus-1:0] address;
