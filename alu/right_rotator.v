@@ -5,5 +5,5 @@ module right_rotator (In, SR_Bit, Out);
     input [4:0] SR_Bit;
     output wire [N-1:0] Out;
     
-    assign Out = In << (N-1-SR_Bit) | In >> SR_Bit;
+    assign Out = In << (N-SR_Bit) | In >> SR_Bit;
 endmodule

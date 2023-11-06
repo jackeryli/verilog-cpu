@@ -116,6 +116,16 @@ module alu_simple_tb;
 
         // Test rotation (assuming rotation module is implemented correctly)
         // ... Rotation tests should be added here
+        opcode = 4'b0000; // ADD opcode
+        In1 = 30;
+        In2 = 10;
+        SR_Bit = 4;
+        SR_Cont = 3'b011; // Right rotation operation
+        #10;
+        if (Out != (In1 + (32'b1010_0000_0000_0000_0000_0000_0000_0000))) begin
+            $display("Out=%b, In1=%b, In2=%b", Out, In1, In2);
+            $display("Right rotation Test Failed!");
+        end
 
         // Signal test completion
         $display("All tests completed successfully.");
