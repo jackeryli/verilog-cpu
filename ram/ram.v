@@ -4,14 +4,13 @@ module RAM_2_16x32 (
     RW,
     address
 );
-parameter words_num = 32, address_bus = 32;
 integer i=0;
-input [words_num-1:0] data_input;
-input [address_bus-1:0] address;
+input [31:0] data_input;
+input [15:0] address;
 input RW;
-output reg [words_num-1:0] data_output;
+output reg [31:0] data_output;
 
-reg [words_num-1:0] memory [0:(1<<address_bus)];
+reg [31:0] memory [0:65535];
 
 always @(*)
     begin
@@ -20,8 +19,9 @@ always @(*)
             memory[address] = data_input;
         end
         // Read from memory
-        else begin
+        else if (RW == 1'b0) begin
             data_output = memory[address];
         end
+        else data_output= 32'b0;
     end
 endmodule
