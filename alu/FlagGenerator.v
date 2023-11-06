@@ -7,13 +7,14 @@ module FlagGenerator (
 );
 
 always @(S or Result or Carry or Overflow) begin
-    Flags = 4'b0000;
     if(S == 1'b1) begin
         Flags[3] = Result[31];
         Flags[2] = (Result == 32'b0);
         Flags[1] = Carry;
         Flags[0] = Overflow;
     end
+    else
+        Flags = 4'b0000;
 end
 
 endmodule
