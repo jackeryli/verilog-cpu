@@ -1,11 +1,24 @@
-module alu_simple (In1, In2, Out, opcode, SR_Cont, SR_Bit);
+module alu_simple (In1, In2, Out, opcode, SR_Cont, SR_Bit, S, Flags);
 input [31:0] In1, In2;
-reg [31:0] In3;
 input [3:0] opcode;
 input [4:0] SR_Bit;
 input [2:0] SR_Cont;
+input S;
 output reg [31:0] Out;
+
+// The 4-bit Flags register ({N, Z, C, V}) are set by a CMP instruction
+// or when the S option is set to one (bit # 23 of the instruction). 
+// N=1 if the result is negative
+// Z=1 if the result is zero
+// C=1 if the result generates a carry
+// V=1 if the result generates an overflow
+output wire [3:0] Flags;
+
 wire [31:0] add_out, sub_out, mul_out, bor_out, band_out, bxor_out, rs_out, ls_out, rr_out;
+wire add_carry, add_overflow;
+
+reg [31:0] In3;
+reg carry, overflow;
 
 right_shifter rs (In2, SR_Bit, rs_out);
 left_shifter ls (In2, SR_Bit, ls_out);
@@ -16,7 +29,7 @@ assign In3 = (SR_Cont == 3'b001) ? rs_out :
             (SR_Cont == 3'b011) ? rr_out :
             In2;
 
-adder add (In1, In3, add_out);
+adder add (In1, In3, add_out, add_carry, add_overflow);
 substractor sub (In1, In3, sub_out);
 multiplier mul (In1, In3, mul_out);
 bitwise_or bor (In1, In3, bor_out);
@@ -25,7 +38,11 @@ bitwise_xor bxor (In1, In3, bxor_out);
 
 always @ * begin
     case (opcode)
-        4'b0000: Out = add_out;
+        4'b0000: begin
+            Out = add_out;
+            carry = add_carry;
+            overflow = add_overflow;
+        end
         4'b0001: Out = sub_out;
         4'b0010: Out = mul_out;
         4'b0011: Out = bor_out;
@@ -34,4 +51,7 @@ always @ * begin
         default: Out = Out;
     endcase
 end
+
+FlagGenerator fg (S, Out, carry, overflow, Flags);
+
 endmodule
