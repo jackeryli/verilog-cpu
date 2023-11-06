@@ -8,9 +8,11 @@ module alu_simple_tb;
     reg [3:0] opcode;
     reg [4:0] SR_Bit;
     reg [2:0] SR_Cont;
+    reg S;
 
     // Output
     wire [31:0] Out;
+    wire [3:0] Flags;
 
     // Instantiate the Unit Under Test (UUT)
     alu_simple uut (
@@ -19,7 +21,9 @@ module alu_simple_tb;
         .Out(Out), 
         .opcode(opcode), 
         .SR_Cont(SR_Cont), 
-        .SR_Bit(SR_Bit)
+        .SR_Bit(SR_Bit),
+        .S(S),
+        .Flags(Flags)
     );
 
     initial begin
@@ -29,6 +33,7 @@ module alu_simple_tb;
         opcode = 0;
         SR_Bit = 0;
         SR_Cont = 0;
+        S = 1;
 
         // Wait for global reset
         #100;
@@ -41,6 +46,8 @@ module alu_simple_tb;
         SR_Cont = 3'b000; // No shift operation
         #10;
         if (Out != (In1 + In2)) $display("Addition Test Failed!");
+
+
 
         // Test subtraction
         opcode = 4'b0001; // Subtraction opcode
