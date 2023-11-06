@@ -1,5 +1,5 @@
 module alu_simple (In1, In2, Out, Opcode, SR_Cont, SR_Bit, S, Flags, Immediate);
-input [31:0] In1, In2;
+input signed [31:0] In1, In2;
 input [3:0] Opcode;
 input [4:0] SR_Bit;
 input [2:0] SR_Cont;
@@ -23,7 +23,7 @@ wire [31:0] store_out;
 
 wire add_carry, add_overflow;
 
-reg [31:0] In3;
+reg signed [31:0] In3;
 reg carry, overflow;
 
 // TODO: ALU should recognize the optional Cond bits (the four MSB of the instruction) as per the following table;
