@@ -1,4 +1,4 @@
-module tb_alu;
+module tb_alu_compare;
 
     // Inputs
     reg signed [31:0] In1;
