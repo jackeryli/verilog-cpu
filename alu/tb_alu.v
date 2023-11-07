@@ -1,4 +1,4 @@
-module tb_alu;
+module tb_alu_compare;
 
     // Inputs
     reg signed [31:0] In1;
@@ -75,6 +75,16 @@ module tb_alu;
         Opcode = 4'b1011; // Compare Opcode
         In1 = 32'd0;
         In2 = 32'd2147483648;
+        SR_Bit = 5; // Random shift for testing, not needed for addition
+        SR_Cont = 3'b000; // No shift operation
+        #10;
+        $display("Out=%b, In1=%d, In2=%d", Out, In1, In2);
+        $display("Flags = %b", Flags);
+
+        // Test Compare
+        Opcode = 4'b1011; // Compare Opcode
+        In1 = 32'd2147483647;
+        In2 = -32'd21474;
         SR_Bit = 5; // Random shift for testing, not needed for addition
         SR_Cont = 3'b000; // No shift operation
         #10;
