@@ -29,7 +29,11 @@ module cmp_tb;
     // Wait 100 ns for global reset to finish
     #20;
       
-    // Add stimulus here
+    // Add stimulus 
+    In1 = 32'd10; In2 = 32'd15;
+    #10; // Wait for 10 ns
+    $display("Test 1: In1 = %d, In2 = %d, Out = %b, Carry = %d, Overflow = %d", In1, In2, Out, Carry, Overflow);
+
     In1 = 32'd10; In2 = -32'd15;
     #10; // Wait for 10 ns
     $display("Test 1: In1 = %d, In2 = %d, Out = %b, Carry = %d, Overflow = %d", In1, In2, Out, Carry, Overflow);

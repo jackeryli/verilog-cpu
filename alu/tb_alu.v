@@ -1,8 +1,8 @@
 module tb_alu;
 
     // Inputs
-    reg [31:0] In1;
-    reg [31:0] In2;
+    reg signed [31:0] In1;
+    reg signed [31:0] In2;
     reg [3:0] Opcode;
     reg [3:0] Cond;
     reg [4:0] SR_Bit;
@@ -48,7 +48,7 @@ module tb_alu;
         SR_Bit = 5; // Random shift for testing, not needed for addition
         SR_Cont = 3'b000; // No shift operation
         #10;
-        $display("Out=%d, In1=%d, In2=%d", Out, In1, In2);
+        $display("Out=%b, In1=%d, In2=%d", Out, In1, In2);
         $display("Flags = %b", Flags);
 
         // Test Compare
@@ -58,7 +58,7 @@ module tb_alu;
         SR_Bit = 5; // Random shift for testing, not needed for addition
         SR_Cont = 3'b000; // No shift operation
         #10;
-        $display("Out=%d, In1=%d, In2=%d", Out, In1, In2);
+        $display("Out=%b, In1=%d, In2=%d", Out, In1, In2);
         $display("Flags = %b", Flags);
 
         // Test Compare
@@ -68,7 +68,7 @@ module tb_alu;
         SR_Bit = 5; // Random shift for testing, not needed for addition
         SR_Cont = 3'b000; // No shift operation
         #10;
-        $display("Out=%d, In1=%d, In2=%d", Out, In1, In2);
+        $display("Out=%b, In1=%d, In2=%d", Out, In1, In2);
         $display("Flags = %b", Flags);
 
         // Test Compare
@@ -78,7 +78,7 @@ module tb_alu;
         SR_Bit = 5; // Random shift for testing, not needed for addition
         SR_Cont = 3'b000; // No shift operation
         #10;
-        $display("Out=%d, In1=%d, In2=%d", Out, In1, In2);
+        $display("Out=%b, In1=%d, In2=%d", Out, In1, In2);
         $display("Flags = %b", Flags);
 
 
