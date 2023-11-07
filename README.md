@@ -28,12 +28,11 @@
 ![mermoy controller wave](img/memory_controller_wave.png)
 
 ## RAM
-| Input        | Bits | Description   |
-| ------------ | ---- | ------------- |
-| address      | 16   | Address bus   |
-| data_input   | 32   | Data input    |
-| write_Enable | 1    | Enable Signal |
-| read_Enable  | 1    | Enable Signal |
+| Input      | Bits | Description                                |
+| ---------- | ---- | ------------------------------------------ |
+| address    | 16   | Address bus                                |
+| data_input | 32   | Data input                                 |
+| RW         | 1    | For memory access, RW=0: read, RW=1: write |
 
 | Output      | Bits | Description |
 | ----------- | ---- | ----------- |
