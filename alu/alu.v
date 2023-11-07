@@ -8,7 +8,7 @@ input [2:0] SR_Cont;
 input [15:0] Imm;
 input [31:0] mem [0:(1<<16)];
 output reg [31:0] Out;
-inout reg [3:0] Flags;
+output reg [3:0] Flags;
 wire [31:0] add_out, sub_out, mul_out, bor_out, band_out, bxor_out, rs_out, ls_out, rr_out, move_imm_out, load_out, store_out;
 wire add_carry, add_overflow;
 reg carry, overflow;
@@ -17,6 +17,7 @@ wire [31:0] Un_In1, Un_In2;
 
 assign Un_In1 = In1;
 assign Un_In2 = In2;
+
 
 assign Condition_met =  (Cond == 4'b0000) ? 1'b1 : // No Condition
                         (Cond == 4'b0001 && In1 == In2) ? 1'b1 : // EQ - Equal
@@ -45,7 +46,7 @@ multiplier mul (In1, In3, mul_out);
 bitwise_or bor (In1, In3, bor_out);
 bitwise_and band (In1, In3, band_out);
 bitwise_xor bxor (In1, In3, bxor_out);
-mov_imm movi (Immediate, move_imm_out);
+mov_imm movi (Imm, move_imm_out);
 mov mov (In1, move_out);
 ldr load(In1, load_out);
 str store(In1, store_out);
