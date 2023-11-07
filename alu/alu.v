@@ -6,13 +6,13 @@ input S;
 input [4:0] SR_Bit;
 input [2:0] SR_Cont;
 input [15:0] Immediate;
-output reg [31:0] Out;
+output reg signed [31:0] Out;
 inout reg [3:0] Flags;
 
-wire [31:0] add_out, sub_out, mul_out, bor_out, band_out, bxor_out, rs_out, ls_out, rr_out, move_imm_out, load_out, store_out;
+wire signed [31:0] add_out, sub_out, mul_out, bor_out, band_out, bxor_out, rs_out, ls_out, rr_out, move_imm_out, load_out, store_out;
 wire add_carry, add_overflow;
 wire cmp_carry, cmp_overflow;
-wire [3:0] cmp_out;
+wire signed [3:0] cmp_out;
 wire [31:0] Un_In1, Un_In2;
 
 reg carry, overflow;
