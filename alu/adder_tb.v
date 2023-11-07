@@ -27,7 +27,7 @@ module add_tb;
 
         // Test case 3: Overflow test
         In1 = 2147483647; // Maximum positive signed 32-bit number
-        In2 = 1;
+        In2 = 2147483647;
         #10;
         $display("Test Case 3: In1 = %d, In2 = %d, Out = %b, Carry = %b, Overflow = %b", In1, In2, Out, Carry, Overflow);
 
