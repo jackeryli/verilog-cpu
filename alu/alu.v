@@ -1,19 +1,22 @@
-module alu (In1, In2, Out, Opcode, Cond, S, SR_Cont, SR_Bit, Flags, Imm, mem);
+module alu (In1, In2, Out, Opcode, Cond, S, SR_Cont, SR_Bit, Flags, Immediate);
 input signed [31:0] In1, In2;
 wire signed [31:0] In3;
 input [3:0] Opcode, Cond;
 input S;
 input [4:0] SR_Bit;
 input [2:0] SR_Cont;
-input [15:0] Imm;
-input [31:0] mem [0:(1<<16)];
+input [15:0] Immediate;
 output reg [31:0] Out;
 inout reg [3:0] Flags;
+
 wire [31:0] add_out, sub_out, mul_out, bor_out, band_out, bxor_out, rs_out, ls_out, rr_out, move_imm_out, load_out, store_out;
 wire add_carry, add_overflow;
-reg carry, overflow;
+wire cmp_carry, cmp_overflow;
 wire [3:0] cmp_out;
 wire [31:0] Un_In1, Un_In2;
+
+reg carry, overflow;
+reg flag_enable;
 
 assign Un_In1 = In1;
 assign Un_In2 = In2;
@@ -49,9 +52,13 @@ mov_imm movi (Immediate, move_imm_out);
 mov mov (In1, move_out);
 ldr load(In1, load_out);
 str store(In1, store_out);
-cmp compare(In1, In3, cmp_out);
+cmp compare(In1, In3, cmp_out, cmp_carry, cmp_overflow);
 
 always @ * begin
+    Out = 32'bz;
+    carry = 1'b0;
+    overflow = 1'b0;
+    flag_enable = S;
     if (Condition_met) begin
         case (Opcode)
             4'b0000: begin
@@ -66,7 +73,12 @@ always @ * begin
             4'b0101: Out = bxor_out;
             4'b0110: Out = move_imm_out;
             4'b0111: Out = move_out;
-            4'b1011: Flags = cmp_out;
+            4'b1011: begin
+                Out = cmp_out;
+                carry = cmp_carry;
+                overflow = cmp_overflow;
+                flag_enable = 1'b1;
+            end
             4'b1101: Out = load_out;
             4'b1110: Out = store_out;
             default: ;
@@ -74,6 +86,6 @@ always @ * begin
     end
 end
 
-FlagGenerator fg (S, Out, carry, overflow, Flags);
+FlagGenerator fg (flag_enable, Out, carry, overflow, Flags);
 
 endmodule
