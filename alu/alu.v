@@ -9,7 +9,11 @@ input [15:0] Immediate;
 output reg signed [31:0] Out;
 inout reg [3:0] Flags;
 
-wire signed [31:0] add_out, sub_out, mul_out, bor_out, band_out, bxor_out, rs_out, ls_out, rr_out, move_imm_out, load_out, store_out;
+wire signed [31:0] add_out, sub_out, mul_out, bor_out, band_out, bxor_out, rs_out, ls_out, rr_out;
+wire [31:0] move_imm_out;
+wire [31:0] move_out;
+wire [31:0] load_out;
+wire [31:0] store_out;
 wire add_carry, add_overflow;
 wire cmp_carry, cmp_overflow;
 wire signed [3:0] cmp_out;
