@@ -41,3 +41,5 @@
 ### Simulation
 
 ![image](https://github.com/jackeryli/verilog-cpu/assets/35621220/a9060124-c7d6-42d2-bf2c-644987d73c1a)
+
+### For test
