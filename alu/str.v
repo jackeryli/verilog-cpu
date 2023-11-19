@@ -1,9 +1,7 @@
-module str (In1, In2, mem);
-input [31:0] In1, In2;
-output reg [31:0] mem [0:(1<<16)];
+module str (In, Out);
+input [31:0] In;
+output [31:0] Out;
 
-always@(In1 or In2) begin
-    mem[In1] = In2;
-end
+assign Out = In;
 
 endmodule

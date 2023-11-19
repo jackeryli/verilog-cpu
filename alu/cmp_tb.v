@@ -5,9 +5,9 @@ module cmp_tb;
   // Inputs
   reg signed [31:0] In1;
   reg signed [31:0] In2;
-  reg S;
-  reg signed [31:0] num;
-  reg signed [32:0] sum;
+  wire signed [31:0] Out;
+  wire Carry;
+  wire Overflow;
 
   // Output
   wire [3:0] flag;
@@ -16,45 +16,62 @@ module cmp_tb;
   cmp uut (
     .In1(In1), 
     .In2(In2), 
-    .S(S), 
-    .flag(flag)
+    .Out(Out),
+    .Carry(Carry),
+    .Overflow(Overflow) 
   );
 
   initial begin
     // Initialize Inputs
     In1 = 0;
     In2 = 0;
-    S = 0;
-    num = -32'd15;
     #100;
-    $display("Number is %d in decimal and %b in binary", num, num);
     // Wait 100 ns for global reset to finish
     #20;
       
-    // Add stimulus here
-    In1 = 32'd10; In2 = -32'd15; S = 0; sum = In1+In2; // Positive vs Negative
+    // Add stimulus 
+    In1 = 32'd10; In2 = 32'd15;
     #10; // Wait for 10 ns
-    $display("Test 1: In1 = %d, In2 = %d, Flags = %b, Sum = %d", In1, In2, flag, sum);
+    $display("Test 1: In1 = %b, In2 = %b, Out = %b, Carry = %d, Overflow = %d", In1, In2, Out, Carry, Overflow);
+    $display("Test 1: In1 = %d, In2 = %d, Out = %d, Carry = %d, Overflow = %d", In1, In2, Out, Carry, Overflow);
 
-    In1 = 32'd7; In2 = -32'd2; S = 0; sum = In1+In2; // Negative vs Positive
+    In1 = 32'd10; In2 = -32'd15;
+    #10; // Wait for 10 ns
+    $display("Test 1: In1 = %b, In2 = %b, Out = %b, Carry = %d, Overflow = %d", In1, In2, Out, Carry, Overflow);
+    $display("Test 1: In1 = %d, In2 = %d, Out = %d, Carry = %d, Overflow = %d", In1, In2, Out, Carry, Overflow);
+
+    In1 = 32'd7; In2 = -32'd2;
     #10;
-    $display("Test 2: In1 = %b, In2 = %b, Flags = %b, Sum = %b", In1, In2, flag, sum);
+    $display("Test 1: In1 = %b, In2 = %b, Out = %b, Carry = %d, Overflow = %d", In1, In2, Out, Carry, Overflow);
+    $display("Test 1: In1 = %d, In2 = %d, Out = %d, Carry = %d, Overflow = %d", In1, In2, Out, Carry, Overflow);
 
-    In1 = 32'd5; In2 = 32'd5; S = 0; // Equal numbers
+    In1 = 32'd5; In2 = 32'd5;
     #10;
-    $display("Test 3: In1 = %d, In2 = %d, Flags = %b", In1, In2, flag);
+    $display("Test 1: In1 = %b, In2 = %b, Out = %b, Carry = %d, Overflow = %d", In1, In2, Out, Carry, Overflow);
+    $display("Test 1: In1 = %d, In2 = %d, Out = %d, Carry = %d, Overflow = %d", In1, In2, Out, Carry, Overflow);
 
-    In1 = 32'd0; In2 = -32'd1; S = 0; // Zero vs Negative
+    In1 = 32'd0; In2 = -32'd1;
     #10;
-    $display("Test 4: In1 = %d, In2 = %d, Flags = %b", In1, In2, flag);
+    $display("Test 1: In1 = %b, In2 = %b, Out = %b, Carry = %d, Overflow = %d", In1, In2, Out, Carry, Overflow);
+    $display("Test 1: In1 = %d, In2 = %d, Out = %d, Carry = %d, Overflow = %d", In1, In2, Out, Carry, Overflow);
 
-    In1 = -32'd32768; In2 = 32'd32767; S = 0; // Overflow condition
+    In1 = -32'd32768; In2 = 32'd32767;
     #10;
-    $display("Test 5: In1 = %d, In2 = %d, Flags = %b", In1, In2, flag);
+    $display("Test 1: In1 = %b, In2 = %b, Out = %b, Carry = %d, Overflow = %d", In1, In2, Out, Carry, Overflow);
+    $display("Test 1: In1 = %d, In2 = %d, Out = %d, Carry = %d, Overflow = %d", In1, In2, Out, Carry, Overflow);
 
-    // Add more tests as needed
-    // ...
+    In1 = 32'd2147483647; In2 = -32'd21444;
+    #10;
+    $display("~In2=%b, 1+(~In2) = %b", ~In2, 1 + ~In2);
+    $display("Test 1: In1 = %b, In2 = %b, Out = %b, Carry = %d, Overflow = %d", In1, In2, Out, Carry, Overflow);
+    $display("Test 1: In1 = %d, In2 = %d, Out = %d, Carry = %d, Overflow = %d", In1, In2, Out, Carry, Overflow);
 
+    In1 = 32'd2147483647; In2 = -32'd2147483647;
+    #10;
+    $display("~In2=%b, 1+(~In2) = %b", ~In2, 1 + ~In2);
+    $display("Test 1: In1 = %b, In2 = %b, Out = %b, Carry = %d, Overflow = %d", In1, In2, Out, Carry, Overflow);
+    $display("Test 1: In1 = %d, In2 = %d, Out = %d, Carry = %d, Overflow = %d", In1, In2, Out, Carry, Overflow);
+    
     $display("All tests completed successfully."); // End simulation
   end
       

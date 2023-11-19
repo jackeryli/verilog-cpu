@@ -11,7 +11,7 @@ module MemoryController (
   output reg [31:0] Dout
 );
 
-  // TODO: LDR MUX
+  // LDRMux now puts at ldr_tb.v for testing
 
   always @(Opcode or Address or Data or Din) begin
     LDRSel = 1'b0;
