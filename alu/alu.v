@@ -1,4 +1,4 @@
-module alu (In1, In2, Out, Opcode, Cond, S, SR_Cont, SR_Bit, Flags, Immediate, Condition_met);
+module Alu (In1, In2, Out, Opcode, Cond, S, SR_Cont, SR_Bit, Flags, Immediate, Condition_met);
 input signed [31:0] In1, In2;
 wire signed [31:0] In3;
 input [3:0] Opcode, Cond;
@@ -16,7 +16,7 @@ wire [31:0] load_out;
 wire [31:0] store_out;
 wire add_carry, add_overflow;
 wire cmp_carry, cmp_overflow;
-wire signed [3:0] cmp_out;
+wire signed [31:0] cmp_out;
 output wire Condition_met;
 wire [31:0] Un_In1, Un_In2;
 
