@@ -7,7 +7,7 @@ module MemoryController (
   output reg AddressBusSel,
   output reg RW,
   output reg [31:0] LDRDataToDestReg,
-  output reg [31:0] AddressBus,
+  output reg [15:0] AddressBus,
   output reg [31:0] Dout
 );
 
