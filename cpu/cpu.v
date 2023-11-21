@@ -3,6 +3,11 @@ module Cpu (clk, rst);
 input clk;
 input rst;
 
+reg [2:0] state, next_state;
+parameter [2:0] LOAD=3'b000, FETCH=3'b001, DECODE=3'b010, EXECUTE=3'b011;
+
+reg [7:0] pc, next_pc; // Program Counter
+
 reg [31:0] instruction;
 wire condition_met;
 
@@ -19,8 +24,6 @@ reg [4:0] shiftror;
 reg [2:0] blank;
 reg [2:0] shiftrorcontrol;
 reg [15:0] immediate;
-
-reg [7:0] pc; // Program Counter
 
 // TODO
 reg [15:0] pc_instruction_access;
@@ -57,35 +60,52 @@ wire [15:0] address_bus;
 
 always@(posedge clk or negedge rst) begin
     if(!rst) begin
-        instruction <= 32'bz;
-        pc <= 8'b0;
+        state <= LOAD;
+        pc <= 0;
     end
     else begin
-        instruction <= ram.memory[pc];
-        
-        {cond, opcode, s, destination, source2, source1, shiftror, blank, shiftrorcontrol} <= 32'bz;
-        immediate <= 16'bz;
+        state <= next_state;
+        pc <= next_pc;
+    end
+end
 
-        cond <= instruction[31:28];
-
-        if(cond != 4'b0000) begin
-            {cond, opcode, s, destination, source2, source1, shiftror, blank, shiftrorcontrol} <= instruction;
-            if(!condition_met) begin
-                // Not satisfied. Don't execute this instruction
-            end
-            else begin
-                {cond, opcode, s, destination, source2, source1, shiftror, blank, shiftrorcontrol} <= instruction;
-                immediate <= instruction[18:3];
-            end
+always@(*) begin
+    case(state)
+    LOAD: begin
+        next_state = FETCH;
+        next_pc = pc;
+    end
+    FETCH: begin
+        // Read instruction from memory
+        instruction = ram.memory[pc];
+        next_state = DECODE;
+        next_pc = pc;
+    end
+    DECODE: begin
+        cond = instruction[31:28];
+        if(cond != 4'b0000 && !condition_met) begin
+            next_state = FETCH;
+            next_pc = pc;
         end
         else begin
+            // Decode instruction
             {cond, opcode, s, destination, source2, source1, shiftror, blank, shiftrorcontrol} <= instruction;
             immediate <= instruction[18:3];
+
+            next_state = EXECUTE;
+            next_pc = pc;
         end
-        
-        pc <= pc + 1;
     end
-    
+    EXECUTE: begin
+        next_state = FETCH;
+        // pc increment
+        next_pc = pc + 1;
+    end
+    default: begin
+        next_state = FETCH;
+        next_pc = pc;
+    end
+    endcase
 end
 
 RAM_2_16x32 ram(
