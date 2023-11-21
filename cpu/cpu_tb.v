@@ -25,27 +25,13 @@ module Cpu_tb;
 
     rst = 0;
 
-    $readmemb("ldr_instruction_set.txt", cpu.ram.memory);
+    $readmemb("str_instruction_set.txt", cpu.ram.memory);
 
     #100
 
     #10 rst = 1;
 
-    #5
-    // Loop to display register values
-    for (i = 0; i < 16; i = i + 1) begin
-      $display("reg %d = %b", i, cpu.register.registers[i]);
-    end
-
-    #5
-    for (i = 0; i < 16; i = i + 1) begin
-      $display("reg %d = %b", i, cpu.register.registers[i]);
-    end
-
-    #5
-    for (i = 0; i < 16; i = i + 1) begin
-      $display("reg %d = %b", i, cpu.register.registers[i]);
-    end
+    $writememb("str_output.txt", cpu.ram.memory);
 
   end
 
