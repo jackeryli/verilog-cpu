@@ -16,7 +16,7 @@ wire [31:0] load_out;
 wire [31:0] store_out;
 wire add_carry, add_overflow;
 wire cmp_carry, cmp_overflow;
-wire signed [3:0] cmp_out;
+wire signed [31:0] cmp_out;
 wire [3:0] cmp_flags, gen_flags;
 output wire Condition_met;
 wire [31:0] Un_In1, Un_In2;
