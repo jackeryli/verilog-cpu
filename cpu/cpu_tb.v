@@ -31,6 +31,8 @@ module Cpu_tb;
 
     #10 rst = 1;
 
+    #100
+
     $writememb("str_output.txt", cpu.ram.memory);
 
   end
