@@ -23,10 +23,13 @@ module Cpu_tb;
   // Reset generation
   initial begin
 
+    rst = 0;
+
     $readmemb("ldr_instruction_set.txt", cpu.ram.memory);
 
-    rst = 1;
-    #10 rst = 0;
+    #100
+
+    #10 rst = 1;
 
     #5
     // Loop to display register values
