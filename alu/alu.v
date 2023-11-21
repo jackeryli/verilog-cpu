@@ -7,7 +7,7 @@ input [4:0] SR_Bit;
 input [2:0] SR_Cont;
 input [15:0] Immediate;
 output reg signed [31:0] Out;
-inout reg [3:0] Flags;
+output reg [3:0] Flags;
 
 wire signed [31:0] add_out, sub_out, mul_out, bor_out, band_out, bxor_out, rs_out, ls_out, rr_out;
 wire [31:0] move_imm_out;
@@ -17,7 +17,7 @@ wire [31:0] store_out;
 wire add_carry, add_overflow;
 wire cmp_carry, cmp_overflow;
 wire signed [3:0] cmp_out;
-wire [3:0] cmp_flags;
+wire [3:0] cmp_flags, gen_flags;
 output wire Condition_met;
 wire [31:0] Un_In1, Un_In2;
 
@@ -59,6 +59,7 @@ mov mov (In1, move_out);
 ldr load(In1, load_out);
 str store(In1, store_out);
 cmp compare(In1, In3, cmp_out, cmp_flags);
+FlagGenerator fg (flag_enable, In1, In3, gen_flags);
 
 always @ (*) begin
     Out = 32'b0;
@@ -95,6 +96,6 @@ always @ (*) begin
         Out = 32'b0;
 end
 
-FlagGenerator fg (flag_enable, Out, carry, overflow, Flags);
+
 
 endmodule
