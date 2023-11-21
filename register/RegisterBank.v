@@ -1,6 +1,9 @@
 // Deprecated
 module RegBank_16x32(wr,data_in);
+<<<<<<< Updated upstream
 //module RegBank_16x32(data_out,wr,rd_addr,data_in);
+=======
+>>>>>>> Stashed changes
 	input [15:0] wr;
 	//input [3:0] rd_addr;
 	input [31:0] data_in;

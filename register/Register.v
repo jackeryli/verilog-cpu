@@ -22,7 +22,7 @@ always@(*) begin
 			registers[i] = Din;
 end
 
-assign Source1 = registers[RegSource1];
-assign Source2 = registers[RegSource2];
+assign Source2 = registers[RegSource1];
+assign Source1 = registers[RegSource2];
 
 endmodule
