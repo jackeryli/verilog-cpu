@@ -17,6 +17,7 @@ wire [31:0] store_out;
 wire add_carry, add_overflow;
 wire cmp_carry, cmp_overflow;
 wire signed [3:0] cmp_out;
+wire [3:0] cmp_flags;
 output wire Condition_met;
 wire [31:0] Un_In1, Un_In2;
 
@@ -47,7 +48,7 @@ assign In3 = (SR_Cont == 3'b001) ? rs_out :
             (SR_Cont == 3'b011) ? rr_out :
             In2;
 
-adder add (In1, In3, add_out, add_carry, add_overflow);
+adder add (In1, In3, add_out);
 substractor sub (In1, In3, sub_out);
 multiplier mul (In1, In3, mul_out);
 bitwise_or bor (In1, In3, bor_out);
@@ -57,7 +58,7 @@ mov_imm movi (Immediate, move_imm_out);
 mov mov (In1, move_out);
 ldr load(In1, load_out);
 str store(In1, store_out);
-cmp compare(In1, In3, cmp_out, cmp_carry, cmp_overflow);
+cmp compare(In1, In3, cmp_out, cmp_flags);
 
 always @ (*) begin
     Out = 32'b0;
@@ -68,8 +69,8 @@ always @ (*) begin
         case (Opcode)
             4'b0000: begin
                 Out = add_out;
-                carry = add_carry;
-                overflow = add_overflow;
+                // carry = add_carry;
+                // overflow = add_overflow;
             end
             4'b0001: Out = sub_out;
             4'b0010: Out = mul_out;
@@ -80,9 +81,10 @@ always @ (*) begin
             4'b0111: Out = move_out;
             4'b1011: begin
                 Out = cmp_out;
-                carry = cmp_carry;
-                overflow = cmp_overflow;
-                flag_enable = 1'b1;
+                // carry = cmp_carry;
+                // overflow = cmp_overflow;
+                Flags = cmp_flags;
+                flag_enable = 1'b1; //reconsider
             end
             4'b1101: Out = load_out;
             4'b1110: Out = store_out;
