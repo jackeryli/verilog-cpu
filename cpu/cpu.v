@@ -1,7 +1,7 @@
-module Cpu (
-    input clk,
-    input rst
-);
+module Cpu (clk, rst);
+
+input clk;
+input rst;
 
 reg [31:0] instruction;
 wire condition_met;
@@ -55,10 +55,10 @@ wire [15:0] address_bus;
 // shiftror = instruction[10:6];
 // shiftrorcontrol = instruction[2:0];
 
-always@(posedge clk) begin
+always@(posedge clk or negedge rst) begin
     if(!rst) begin
         instruction <= 32'bz;
-        pc <= 0;
+        pc <= 8'b0;
     end
     else begin
         instruction <= ram.memory[pc];
@@ -70,20 +70,20 @@ always@(posedge clk) begin
 
         if(cond != 4'b0000) begin
             {cond, opcode, s, destination, source2, source1, shiftror, blank, shiftrorcontrol} <= instruction;
-            if(!condition_met)
+            if(!condition_met) begin
                 // Not satisfied. Don't execute this instruction
-                pc <= pc + 1;
+            end
             else begin
                 {cond, opcode, s, destination, source2, source1, shiftror, blank, shiftrorcontrol} <= instruction;
                 immediate <= instruction[18:3];
-                pc <= pc + 1;
             end
         end
         else begin
             {cond, opcode, s, destination, source2, source1, shiftror, blank, shiftrorcontrol} <= instruction;
             immediate <= instruction[18:3];
-            pc <= pc + 1;
         end
+        
+        pc <= pc + 1;
     end
     
 end
