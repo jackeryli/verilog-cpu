@@ -110,8 +110,8 @@ MemoryController mc (
 
 Register register (
   .Destination(destination),
-  .RegSource1(source2),
-  .RegSource2(source1),
+  .RegSource1(source1),
+  .RegSource2(source2),
   .Din(memorycontrol_to_reg),
   .Source1(reg_to_alu_source1),
   .Source2(reg_to_alu_source2)
