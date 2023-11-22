@@ -35,11 +35,8 @@ module Cpu_tb;
 
     $writememb("str_output.txt", cpu.ram.memory);
 
+    #1000 $finish;
+
   end
-
-  // Add other test scenarios here...
-
-  // Simulation duration
-  initial #1000 $finish;
 
 endmodule
