@@ -90,6 +90,11 @@ always@(*) begin
         else begin
             // Decode instruction
             {cond, opcode, s, destination, source1, source2, shiftror, blank, shiftrorcontrol} <= instruction;
+
+            // When executing LDR, destination should be source1
+            if(instruction[27:24] == 4'b1101) begin
+                destination <= instruction[18:15];
+            end
             immediate <= instruction[18:3];
 
             next_state = EXECUTE;
