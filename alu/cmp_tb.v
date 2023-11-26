@@ -6,19 +6,16 @@ module cmp_tb;
   reg signed [31:0] In1;
   reg signed [31:0] In2;
   wire signed [31:0] Out;
-  wire Carry;
-  wire Overflow;
 
   // Output
-  wire [3:0] flag;
+  wire [3:0] Flags;
 
   // Instantiate the Unit Under Test (UUT)
   cmp uut (
     .In1(In1), 
     .In2(In2), 
     .Out(Out),
-    .Carry(Carry),
-    .Overflow(Overflow) 
+    .Flags(Flags)
   );
 
   initial begin
@@ -32,45 +29,43 @@ module cmp_tb;
     // Add stimulus 
     In1 = 32'd10; In2 = 32'd15;
     #10; // Wait for 10 ns
-    $display("Test 1: In1 = %b, In2 = %b, Out = %b, Carry = %d, Overflow = %d", In1, In2, Out, Carry, Overflow);
-    $display("Test 1: In1 = %d, In2 = %d, Out = %d, Carry = %d, Overflow = %d", In1, In2, Out, Carry, Overflow);
+    $display("Test 1: In1 = %b, In2 = %b, Flags = %b", In1, In2, Flags);
+    $display("Test 1: In1 = %d, In2 = %d, Out = %d, Flags = %d", In1, In2, Out, Flags);
 
     In1 = 32'd10; In2 = -32'd15;
     #10; // Wait for 10 ns
-    $display("Test 1: In1 = %b, In2 = %b, Out = %b, Carry = %d, Overflow = %d", In1, In2, Out, Carry, Overflow);
-    $display("Test 1: In1 = %d, In2 = %d, Out = %d, Carry = %d, Overflow = %d", In1, In2, Out, Carry, Overflow);
+    $display("Test 1: In1 = %b, In2 = %b, Flags = %b", In1, In2, Flags);
+    $display("Test 1: In1 = %d, In2 = %d, Out = %d, Flags = %d", In1, In2, Out, Flags);
 
     In1 = 32'd7; In2 = -32'd2;
     #10;
-    $display("Test 1: In1 = %b, In2 = %b, Out = %b, Carry = %d, Overflow = %d", In1, In2, Out, Carry, Overflow);
-    $display("Test 1: In1 = %d, In2 = %d, Out = %d, Carry = %d, Overflow = %d", In1, In2, Out, Carry, Overflow);
+    $display("Test 1: In1 = %b, In2 = %b, Flags = %b", In1, In2, Flags);
+    $display("Test 1: In1 = %d, In2 = %d, Out = %d, Flags = %d", In1, In2, Out, Flags);
 
     In1 = 32'd5; In2 = 32'd5;
     #10;
-    $display("Test 1: In1 = %b, In2 = %b, Out = %b, Carry = %d, Overflow = %d", In1, In2, Out, Carry, Overflow);
-    $display("Test 1: In1 = %d, In2 = %d, Out = %d, Carry = %d, Overflow = %d", In1, In2, Out, Carry, Overflow);
+    $display("Test 1: In1 = %b, In2 = %b, Flags = %b", In1, In2, Flags);
+    $display("Test 1: In1 = %d, In2 = %d, Out = %d, Flags = %d", In1, In2, Out, Flags);
 
-    In1 = 32'd0; In2 = -32'd1;
+    In1 = 32'd0; In2 = 32'd2147483647;
     #10;
-    $display("Test 1: In1 = %b, In2 = %b, Out = %b, Carry = %d, Overflow = %d", In1, In2, Out, Carry, Overflow);
-    $display("Test 1: In1 = %d, In2 = %d, Out = %d, Carry = %d, Overflow = %d", In1, In2, Out, Carry, Overflow);
+    $display("Test 1: In1 = %b, In2 = %b, Flags = %b", In1, In2, Flags);
+    $display("Test 1: In1 = %d, In2 = %d, Out = %d, Flags = %d", In1, In2, Out, Flags);
 
     In1 = -32'd32768; In2 = 32'd32767;
     #10;
-    $display("Test 1: In1 = %b, In2 = %b, Out = %b, Carry = %d, Overflow = %d", In1, In2, Out, Carry, Overflow);
-    $display("Test 1: In1 = %d, In2 = %d, Out = %d, Carry = %d, Overflow = %d", In1, In2, Out, Carry, Overflow);
+    $display("Test 1: In1 = %b, In2 = %b, Flags = %b", In1, In2, Flags);
+    $display("Test 1: In1 = %d, In2 = %d, Out = %d, Flags = %d", In1, In2, Out, Flags);
 
     In1 = 32'd2147483647; In2 = -32'd21444;
     #10;
-    $display("~In2=%b, 1+(~In2) = %b", ~In2, 1 + ~In2);
-    $display("Test 1: In1 = %b, In2 = %b, Out = %b, Carry = %d, Overflow = %d", In1, In2, Out, Carry, Overflow);
-    $display("Test 1: In1 = %d, In2 = %d, Out = %d, Carry = %d, Overflow = %d", In1, In2, Out, Carry, Overflow);
+    $display("Test 1: In1 = %b, In2 = %b, Flags = %b", In1, In2, Flags);
+    $display("Test 1: In1 = %d, In2 = %d, Out = %d, Flags = %d", In1, In2, Out, Flags);
 
     In1 = 32'd2147483647; In2 = -32'd2147483647;
     #10;
-    $display("~In2=%b, 1+(~In2) = %b", ~In2, 1 + ~In2);
-    $display("Test 1: In1 = %b, In2 = %b, Out = %b, Carry = %d, Overflow = %d", In1, In2, Out, Carry, Overflow);
-    $display("Test 1: In1 = %d, In2 = %d, Out = %d, Carry = %d, Overflow = %d", In1, In2, Out, Carry, Overflow);
+    $display("Test 1: In1 = %b, In2 = %b, Flags = %b", In1, In2, Flags);
+    $display("Test 1: In1 = %d, In2 = %d, Out = %d, Flags = %d", In1, In2, Out, Flags);
     
     $display("All tests completed successfully."); // End simulation
   end
