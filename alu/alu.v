@@ -60,7 +60,7 @@ str store(In1, store_out);
 cmp compare(In1, In3, cmp_out, cmp_carry, cmp_overflow);
 
 always @ (*) begin
-    Out = 32'b0;
+    Out = 32'bx;
     carry = 1'b0;
     overflow = 1'b0;
     flag_enable = S;
@@ -90,7 +90,7 @@ always @ (*) begin
         endcase
     end
     else
-        Out = 32'b0;
+        Out = 32'bx;
 end
 
 FlagGenerator fg (flag_enable, Out, carry, overflow, Flags);

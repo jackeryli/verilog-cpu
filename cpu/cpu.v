@@ -70,6 +70,14 @@ always@(posedge clk or negedge rst) begin
 end
 
 always@(*) begin
+    cond = 4'bx;
+    opcode = 4'bx;
+    s = 1'bx;
+    destination = 4'bx;
+    source1 = 4'bx;
+    source2 = 4'bx;
+    shiftror = 5'bx;
+    shiftrorcontrol = 3'bx;
     case(state)
     LOAD: begin
         next_state = FETCH;
@@ -84,24 +92,28 @@ always@(*) begin
     DECODE: begin
         cond = instruction[31:28];
         if(cond != 4'b0000 && !condition_met) begin
-            next_state = FETCH;
+            opcode = 4'b1111; // NOP
+            next_state = EXECUTE;
             next_pc = pc;
         end
         else begin
-            // Decode instruction
-            {cond, opcode, s, destination, source1, source2, shiftror, blank, shiftrorcontrol} <= instruction;
-
-            // When executing LDR, destination should be source1
-            if(instruction[27:24] == 4'b1101) begin
-                destination <= instruction[18:15];
-            end
-            immediate <= instruction[18:3];
-
             next_state = EXECUTE;
             next_pc = pc;
         end
     end
     EXECUTE: begin
+        if(opcode == 4'b1111) begin
+            // NOP do nothing
+        end
+        else begin
+            {cond, opcode, s, destination, source1, source2, shiftror, blank, shiftrorcontrol} = instruction;
+            // When executing LDR, destination should be source1
+            if(instruction[27:24] == 4'b1101) begin
+                destination = instruction[18:15];
+            end
+            immediate = instruction[18:3];
+        end
+        
         next_state = FETCH;
         // pc increment
         next_pc = pc + 1;
