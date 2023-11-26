@@ -53,8 +53,8 @@ wire [15:0] address_bus;
 // opcode = instruction[27:24];
 // s = instruction[23];
 // destination = instruction[22:19];
-// source2 = instruction[18:15];
-// source1 = instruction[14:11];
+// source1 = instruction[18:15];
+// source2 = instruction[14:11];
 // shiftror = instruction[10:6];
 // shiftrorcontrol = instruction[2:0];
 
@@ -89,7 +89,7 @@ always@(*) begin
         end
         else begin
             // Decode instruction
-            {cond, opcode, s, destination, source2, source1, shiftror, blank, shiftrorcontrol} <= instruction;
+            {cond, opcode, s, destination, source1, source2, shiftror, blank, shiftrorcontrol} <= instruction;
             immediate <= instruction[18:3];
 
             next_state = EXECUTE;
@@ -117,8 +117,8 @@ RAM_2_16x32 ram(
 
 MemoryController mc (
   .Opcode(opcode),
-  .Address(reg_to_alu_source1),  // Source1
-  .Data(reg_to_alu_source2),     // Source2
+  .Address(reg_to_alu_source2),  // source2 is address
+  .Data(reg_to_alu_source1),     // source1 is data
   .Din(data_memory_to_memorycontrol),
   .LDRSel(ldr_sel),
   .AddressBusSel(address_bus_sel),
