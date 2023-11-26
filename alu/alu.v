@@ -1,4 +1,4 @@
-module alu (In1, In2, Out, Opcode, Cond, S, SR_Cont, SR_Bit, Flags, Immediate, Condition_met);
+module Alu (In1, In2, Out, Opcode, Cond, S, SR_Cont, SR_Bit, Flags, Immediate, Condition_met);
 input signed [31:0] In1, In2;
 wire signed [31:0] In3;
 input [3:0] Opcode, Cond;
