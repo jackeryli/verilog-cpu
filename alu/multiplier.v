@@ -3,6 +3,8 @@ module multiplier (In1, In2, Out, Overflow);
     output wire signed [31:0] Out;
     output wire Overflow;
     wire signed [63:0] full_product;
+    
+    assign full_product=In1*In2;
     assign Out = full_product[31:0];  
 
     // Overflow occurs if the sign of the higher and lower parts of the product do not match
