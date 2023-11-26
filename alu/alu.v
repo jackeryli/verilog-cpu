@@ -1,4 +1,4 @@
-module Alu (In1, In2, Out, Opcode, Cond, S, SR_Cont, SR_Bit, Flags, Immediate, Condition_met);
+module alu (In1, In2, Out, Opcode, Cond, S, SR_Cont, SR_Bit, Flags, Immediate, Condition_met);
 input signed [31:0] In1, In2;
 wire signed [31:0] In3;
 input [3:0] Opcode, Cond;
@@ -16,6 +16,7 @@ wire [31:0] load_out;
 wire [31:0] store_out;
 wire add_carry, add_overflow;
 wire cmp_carry, cmp_overflow;
+wire mul_overflow;
 wire signed [31:0] cmp_out;
 output wire Condition_met;
 wire [31:0] Un_In1, Un_In2;
@@ -49,7 +50,7 @@ assign In3 = (SR_Cont == 3'b001) ? rs_out :
 
 adder add (In1, In3, add_out, add_carry, add_overflow);
 substractor sub (In1, In3, sub_out);
-multiplier mul (In1, In3, mul_out);
+multiplier mul (In1, In3, mul_out, mul_overflow);
 bitwise_or bor (In1, In3, bor_out);
 bitwise_and band (In1, In3, band_out);
 bitwise_xor bxor (In1, In3, bxor_out);
@@ -72,7 +73,10 @@ always @ (*) begin
                 overflow = add_overflow;
             end
             4'b0001: Out = sub_out;
-            4'b0010: Out = mul_out;
+            4'b0010: begin
+		Out = mul_out;
+		overflow = mul_overflow;
+	    end
             4'b0011: Out = bor_out;
             4'b0100: Out = band_out;
             4'b0101: Out = bxor_out;
