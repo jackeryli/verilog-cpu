@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module LDR_tb;
+module Cpu_LDR_tb;
 
   // Inputs
   reg clk;

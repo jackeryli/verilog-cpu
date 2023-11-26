@@ -117,8 +117,8 @@ RAM_2_16x32 ram(
 
 MemoryController mc (
   .Opcode(opcode),
-  .Address(reg_to_alu_source1),  // Source1
-  .Data(reg_to_alu_source2),     // Source2
+  .Address(reg_to_alu_source2),  // source2 is address
+  .Data(reg_to_alu_source1),     // source1 is data
   .Din(data_memory_to_memorycontrol),
   .LDRSel(ldr_sel),
   .AddressBusSel(address_bus_sel),
