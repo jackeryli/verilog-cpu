@@ -1,13 +1,13 @@
 module MemoryController (
   input [3:0] Opcode,
-  input [31:0] Address, // Source1
-  input [31:0] Data,    // Source2
+  input [31:0] Address, // Source2
+  input [31:0] Data,    // Source1
   input [31:0] Din,
   output reg LDRSel,
   output reg AddressBusSel,
   output reg RW,
   output reg [31:0] LDRDataToDestReg,
-  output reg [31:0] AddressBus,
+  output reg [15:0] AddressBus,
   output reg [31:0] Dout
 );
 

@@ -1,5 +1,6 @@
 module alu (In1, In2, Out, Opcode, Cond, S, SR_Cont, SR_Bit, Flags, Immediate, Condition_met);
-input signed [31:0] In1, In2;
+input signed [31:0] In1;
+input signed [31:0] In2;
 wire signed [31:0] In3;
 input [3:0] Opcode, Cond;
 input S;
@@ -58,10 +59,10 @@ mov_imm movi (Immediate, move_imm_out);
 mov mov (In1, move_out);
 ldr load(In1, load_out);
 str store(In1, store_out);
-cmp compare(In1, In3, cmp_out, cmp_flags);
+cmp compare(In1, In2, cmp_out, cmp_flags);
+// assign In2 = In3;
 
 always @ (*) begin
-    Out = 32'b0;
     carry = 1'b0;
     overflow = 1'b0;
     // flag_enable = S;
@@ -106,7 +107,7 @@ always @ (*) begin
         endcase
     end
     else
-        Out = 32'b0;
+        Out = 32'bx;
 end
 
 endmodule
