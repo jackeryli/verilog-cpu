@@ -1,6 +1,5 @@
-module alu (In1, In2, Out, Opcode, Cond, S, SR_Cont, SR_Bit, Flags, Immediate, Condition_met);
-input signed [31:0] In1;
-input signed [31:0] In2;
+module Alu (In1, In2, Out, Opcode, Cond, S, SR_Cont, SR_Bit, Flags, Immediate, Condition_met);
+input signed [31:0] In1, In2;
 wire signed [31:0] In3;
 input [3:0] Opcode, Cond;
 input S;
@@ -19,6 +18,7 @@ wire add_carry, add_overflow;
 wire cmp_carry, cmp_overflow;
 wire signed [31:0] cmp_out;
 wire [3:0] cmp_flags, fg_flags, add_flags, sub_flags, mul_flags, bor_flags, band_flags, bxor_flags;
+
 output wire Condition_met;
 wire [31:0] Un_In1, Un_In2;
 
@@ -63,6 +63,7 @@ cmp compare(In1, In2, cmp_out, cmp_flags);
 // assign In2 = In3;
 
 always @ (*) begin
+    Out = 32'bx;
     carry = 1'b0;
     overflow = 1'b0;
     // flag_enable = S;
