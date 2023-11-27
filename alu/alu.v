@@ -7,7 +7,7 @@ input [4:0] SR_Bit;
 input [2:0] SR_Cont;
 input [15:0] Immediate;
 output reg signed [31:0] Out;
-inout reg [3:0] Flags;
+output reg [3:0] Flags;
 
 wire signed [31:0] add_out, sub_out, mul_out, bor_out, band_out, bxor_out, rs_out, ls_out, rr_out;
 wire [31:0] move_imm_out;
@@ -17,6 +17,8 @@ wire [31:0] store_out;
 wire add_carry, add_overflow;
 wire cmp_carry, cmp_overflow;
 wire signed [31:0] cmp_out;
+wire [3:0] cmp_flags, fg_flags, add_flags, sub_flags, mul_flags, bor_flags, band_flags, bxor_flags;
+
 output wire Condition_met;
 wire [31:0] Un_In1, Un_In2;
 
@@ -47,52 +49,66 @@ assign In3 = (SR_Cont == 3'b001) ? rs_out :
             (SR_Cont == 3'b011) ? rr_out :
             In2;
 
-adder add (In1, In3, add_out, add_carry, add_overflow);
-substractor sub (In1, In3, sub_out);
-multiplier mul (In1, In3, mul_out);
-bitwise_or bor (In1, In3, bor_out);
-bitwise_and band (In1, In3, band_out);
-bitwise_xor bxor (In1, In3, bxor_out);
+adder add (In1, In3, add_out, S, add_flags);
+substractor sub (In1, In3, sub_out, S, sub_flags);
+multiplier mul (In1, In3, mul_out, S, mul_flags);
+bitwise_or bor (In1, In3, bor_out, S, bor_flags);
+bitwise_and band (In1, In3, band_out, S, band_flags);
+bitwise_xor bxor (In1, In3, bxor_out, S, bxor_flags);
 mov_imm movi (Immediate, move_imm_out);
 mov mov (In1, move_out);
 ldr load(In1, load_out);
 str store(In1, store_out);
-cmp compare(In1, In3, cmp_out, cmp_carry, cmp_overflow);
+cmp compare(In1, In2, cmp_out, cmp_flags);
+// assign In2 = In3;
 
 always @ (*) begin
     Out = 32'bx;
     carry = 1'b0;
     overflow = 1'b0;
-    flag_enable = S;
-    if (Condition_met) begin
+    // flag_enable = S;
+    if (Opcode == 4'b1111)
+        Out = Out;
+    else if (Condition_met) begin
         case (Opcode)
             4'b0000: begin
                 Out = add_out;
-                carry = add_carry;
-                overflow = add_overflow;
+                Flags = add_flags;
             end
-            4'b0001: Out = sub_out;
-            4'b0010: Out = mul_out;
-            4'b0011: Out = bor_out;
-            4'b0100: Out = band_out;
-            4'b0101: Out = bxor_out;
+            4'b0001: begin
+            Out = sub_out;
+            Flags = sub_flags;
+            end
+            4'b0010: begin
+            Out = mul_out;
+            Flags = mul_flags;
+            end
+            4'b0011: begin
+                Out = bor_out;
+                Flags = bor_flags;
+            end
+            4'b0100: begin
+                Out = band_out;
+                Flags = band_flags;
+            end
+            4'b0101: begin
+                Out = bxor_out;
+                Flags = bxor_flags;
+            end
             4'b0110: Out = move_imm_out;
             4'b0111: Out = move_out;
             4'b1011: begin
-                Out = cmp_out;
-                carry = cmp_carry;
-                overflow = cmp_overflow;
-                flag_enable = 1'b1;
+                // carry = cmp_carry;
+                // overflow = cmp_overflow;
+                Flags = cmp_flags;
+                // flag_enable = 1'b1; //reconsider
             end
             4'b1101: Out = load_out;
-            4'b1110: Out = store_out;
-            default: ;
+            default: Out = store_out;
         endcase
     end
     else
         Out = 32'bx;
 end
-
-FlagGenerator fg (flag_enable, Out, carry, overflow, Flags);
 
 endmodule
