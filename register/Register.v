@@ -11,13 +11,10 @@ reg [31:0] registers[0:15];
 wire [15:0] en;
 integer i;
 
-// ADD R1 R2 R3
-
 Decoder_4to16 decoder(.out(en), .sel(Destination));
 
-
 always@(*) begin
-    for (i=1; i<16; i=i+1)
+  for (i=0; i<16; i=i+1)
 		if (en[i])
 			registers[i] = Din;
 end

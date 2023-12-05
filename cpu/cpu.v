@@ -111,6 +111,10 @@ always@(*) begin
             if(instruction[27:24] == 4'b1101) begin
                 destination = instruction[18:15];
             end
+            // When executing STR, destination should be source1
+            else if (instruction[27:24] == 4'b1110) begin
+                destination = instruction[18:15];
+            end
             immediate = instruction[18:3];
         end
         
