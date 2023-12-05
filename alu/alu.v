@@ -67,8 +67,10 @@ always @ (*) begin
     carry = 1'b0;
     overflow = 1'b0;
     // flag_enable = S;
-    if (Opcode == 4'b1111)
+    if (Opcode == 4'b1111) begin
         Out = Out;
+        Flags = 4'bx;
+    end
     else if (Condition_met) begin
         case (Opcode)
             4'b0000: begin
@@ -76,12 +78,12 @@ always @ (*) begin
                 Flags = add_flags;
             end
             4'b0001: begin
-            Out = sub_out;
-            Flags = sub_flags;
+                Out = sub_out;
+                Flags = sub_flags;
             end
             4'b0010: begin
-            Out = mul_out;
-            Flags = mul_flags;
+                Out = mul_out;
+                Flags = mul_flags;
             end
             4'b0011: begin
                 Out = bor_out;
@@ -107,8 +109,10 @@ always @ (*) begin
             default: Out = store_out;
         endcase
     end
-    else
+    else begin
         Out = 32'bx;
+        Flags = 4'bx;
+    end
 end
 
 endmodule
