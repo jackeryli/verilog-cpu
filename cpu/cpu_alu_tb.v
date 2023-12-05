@@ -24,7 +24,7 @@ module Cpu_ALU_tb;
   initial begin
 
     rst = 0;
-    
+
     $readmemb("alu_instruction_set.txt", cpu.ram.memory);
 
     #100
