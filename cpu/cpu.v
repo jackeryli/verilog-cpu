@@ -169,7 +169,7 @@ Mux_2x1 #(.N(16)) addbusmux(
 );
 
 
-alu alux(
+Alu alu(
     .In1(reg_to_alu_source1),
     .In2(reg_to_alu_source2),
     .Out(alu_result),

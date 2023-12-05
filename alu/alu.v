@@ -1,6 +1,5 @@
-module alu (In1, In2, Out, Opcode, Cond, S, SR_Cont, SR_Bit, Flags, Immediate, Condition_met);
-input signed [31:0] In1;
-input signed [31:0] In2;
+module Alu (In1, In2, Out, Opcode, Cond, S, SR_Cont, SR_Bit, Flags, Immediate, Condition_met);
+input signed [31:0] In1, In2;
 wire signed [31:0] In3;
 input [3:0] Opcode, Cond;
 input S;
@@ -66,8 +65,10 @@ always @ (*) begin
     carry = 1'b0;
     overflow = 1'b0;
     // flag_enable = S;
-    if (Opcode == 4'b1111)
+    if (Opcode == 4'b1111) begin
         Out = Out;
+        Flags = 4'bx;
+    end
     else if (Condition_met) begin
         case (Opcode)
             4'b0000: begin
@@ -75,12 +76,12 @@ always @ (*) begin
                 Flags = add_flags;
             end
             4'b0001: begin
-            Out = sub_out;
-            Flags = sub_flags;
+                Out = sub_out;
+                Flags = sub_flags;
             end
             4'b0010: begin
-            Out = mul_out;
-            Flags = mul_flags;
+                Out = mul_out;
+                Flags = mul_flags;
             end
             4'b0011: begin
                 Out = bor_out;
@@ -106,8 +107,10 @@ always @ (*) begin
             default: Out = store_out;
         endcase
     end
-    else
+    else begin
         Out = 32'bx;
+        Flags = 4'bx;
+    end
 end
 
 endmodule
