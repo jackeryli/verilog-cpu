@@ -23,10 +23,6 @@
 | AddressBus       | 32   | For memory access                          |
 | Dout             | 32   | For memory access                          |
 
-### Simulation
-
-![mermoy controller wave](img/memory_controller_wave.png)
-
 ## RAM
 | Input      | Bits | Description                                |
 | ---------- | ---- | ------------------------------------------ |
@@ -37,9 +33,3 @@
 | Output      | Bits | Description |
 | ----------- | ---- | ----------- |
 | data_output | 1    | data output |
-
-### Simulation
-
-![image](https://github.com/jackeryli/verilog-cpu/assets/35621220/a9060124-c7d6-42d2-bf2c-644987d73c1a)
-
-### For test
