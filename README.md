@@ -5,6 +5,10 @@
 - Design of memory access block along with its multiplexing (used to complete the execution of the LDR and STR instructions)
 - Design of the RAM
 
+## Structure
+
+![](img/project.png)
+
 ## Memory Controller
 
 | Input   | Bits | Description      |
